@@ -2,5 +2,6 @@
 
 .env
 
+data/*
 *.wav
 *.mp3
