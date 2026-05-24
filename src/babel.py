@@ -16,7 +16,7 @@ class BabelPipeline:
     def __init__(self, merge_segments: bool) -> None:
         self.SAMPLE_RATE = 16000
 
-        self.merge_consecutive_segments = merge_segments
+        self.merge_segments = merge_segments
 
         self.whisper = WhisperModel("small", use_auth_token=os.environ["HUGGINGFACE_TOKEN"])
         self.diarization_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", token=os.environ["HUGGINGFACE_TOKEN"])
@@ -27,7 +27,7 @@ class BabelPipeline:
         with warnings.catch_warnings(action="ignore"):
             diary = self.diarization_pipeline(audio)
 
-        if self.merge_consecutive_segments:
+        if self.merge_segments:
             segments = merge_consecutive_segments(diary, audio["waveform"], self.SAMPLE_RATE)
         else:
             segments = split_waveform_by_segments(diary, audio["waveform"], self.SAMPLE_RATE)
