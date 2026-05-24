@@ -5,3 +5,7 @@
 data/*
 *.wav
 *.mp3
+
+*.egg-info/
+__pycache__/
+.pytest_cache/
