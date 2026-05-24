@@ -78,7 +78,7 @@ class ASRData(BaseModel):
 
         return cls.from_text(txt)
 
-    def __str__(self):
+    def __str__(self) -> str:
         txt = "\n".join([str(segment) for segment in self.segments])
         return txt
 
@@ -95,3 +95,14 @@ class ASRData(BaseModel):
         # Use dict to preserve order (i.e. `set` breaks the order)
         speakers = list(dict.fromkeys(segment.speaker for segment in self.segments))
         return speakers
+
+    def override_speakers(self, new_speakers: list[str] | dict[str, str]) -> None:
+        if isinstance(new_speakers, list):
+            # create mapping
+            current_speakers = self.get_speakers()
+            mapping = dict(zip(current_speakers, new_speakers))
+            self.override_speakers(mapping)
+        else:
+            # `new_speakers` is a mapping old -> new
+            for segment in self.segments:
+                segment.speaker = new_speakers.get(segment.speaker, segment.speaker)
