@@ -2,7 +2,11 @@ import re
 from pathlib import Path
 from typing import Self
 
+from openai.types.audio import TranscriptionDiarizedSegment
+from openai.types.audio.transcription_diarized import TranscriptionDiarized, UsageTokens, UsageTokensInputTokenDetails
+
 from pydantic import BaseModel
+
 
 class ASRSegment(BaseModel):
     start: float
@@ -62,6 +66,22 @@ class ASRData(BaseModel):
                 # want it to silently skip malformed lines instead of crashing.
                 raise ValueError(f"Line does not match expected ASR format: '{line}'")
 
+        return cls(segments=segments)
+
+    @classmethod
+    def from_openai_diarization(cls, txt: TranscriptionDiarized) -> Self:
+        segments: list[ASRSegment] = []
+        """
+        Converts TranscriptionDiarized diarization object into ASRData (list of segments).
+        """
+        for i in txt.segments:
+            segment = ASRSegment(
+                start=i.start,
+                end=i.end,
+                speaker=i.speaker,
+                text=i.text
+            )
+            segments.append(segment)
         return cls(segments=segments)
 
     @classmethod
