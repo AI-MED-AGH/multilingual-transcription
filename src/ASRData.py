@@ -85,3 +85,13 @@ class ASRData(BaseModel):
     def extract_text(self) -> str:
         txt = "\n".join([segment.text for segment in self.segments])
         return txt
+
+    def get_speakers(self) -> list[str]:
+        """
+        Extracts only unique speakers
+        :return:
+        """
+
+        # Use dict to preserve order (i.e. `set` breaks the order)
+        speakers = list(dict.fromkeys(segment.speaker for segment in self.segments))
+        return speakers
