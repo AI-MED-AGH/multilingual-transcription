@@ -69,7 +69,7 @@ class ASRData(BaseModel):
         return cls(segments=segments)
 
     @classmethod
-    def from_openai_diarization(cls, txt: TranscriptionDiarized) -> Self:
+    def from_openai_diarization(cls, txt: TranscriptionDiarized, concat=False) -> Self:
         segments: list[ASRSegment] = []
         """
         Converts TranscriptionDiarized diarization object into ASRData (list of segments).
@@ -81,11 +81,15 @@ class ASRData(BaseModel):
                 speaker=i.speaker,
                 text=i.text
             )
-            segments.append(segment)
+            if concat and segments and segments[-1].speaker == segment.speaker:
+                segments[-1].end = segment.end
+                segments[-1].text += " " + segment.text
+            else:
+                segments.append(segment)
         return cls(segments=segments)
 
     @classmethod
-    def from_txt_file(cls, file_path: str | Path) -> Self:
+    def from_txt_file(cls, file_path: str | Path, encoding="utf-8") -> Self:
         """
         Reads the file under provided `file_path` and extracts segments from it.
         The file format must be compatible with the one described in the `from_text` method.
@@ -93,7 +97,7 @@ class ASRData(BaseModel):
         :return: instance of ASRData class, containing ASR segments
         """
 
-        with open(file_path, "r") as f:
+        with open(file_path, "r", encoding=encoding) as f:
             txt = f.read()
 
         return cls.from_text(txt)
