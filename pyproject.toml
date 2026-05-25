@@ -11,7 +11,9 @@ requires-python = ">=3.13"
 dependencies = [
     "accelerate>=1.13.0",
     "dotenv>=0.9.9",
+    "fastapi>=0.136.3",
     "faster-whisper>=1.2.1",
+    "fastmlapi>=0.2.0",
     "ipykernel>=7.2.0",
     "jiwer>=4.0.0",
     "librosa>=0.11.0",
@@ -20,6 +22,8 @@ dependencies = [
     "nvidia-cudnn-cu12>=9.22.0.52",
     "openai>=2.38.0",
     "pyannote-audio>=4.0.4",
+    "pydantic-settings>=2.14.1",
+    "python-multipart>=0.0.29",
     "transformers>=5.9.0",
 ]
 

@@ -21,8 +21,11 @@ class BabelPipeline:
         self.whisper = WhisperModel("small", use_auth_token=os.environ["HUGGINGFACE_TOKEN"])
         self.diarization_pipeline = Pipeline.from_pretrained("pyannote/speaker-diarization-3.1", token=os.environ["HUGGINGFACE_TOKEN"])
 
-    def __call__(self, audio: str|Path, speakers: list[str]|None = None) -> ASRData:
-        audio: dict = load_audio_for_diarization(audio, self.SAMPLE_RATE)
+    def __call__(self, audio: str|Path|dict, speakers: list[str]|None = None) -> ASRData:
+        if isinstance(audio, dict):
+            audio = audio
+        else:
+            audio = load_audio_for_diarization(audio, self.SAMPLE_RATE)
 
         with warnings.catch_warnings(action="ignore"):
             diary = self.diarization_pipeline(audio)

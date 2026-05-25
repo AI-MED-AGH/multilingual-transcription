@@ -1,4 +1,5 @@
 from pathlib import Path
+import io
 
 import librosa
 import torch
@@ -9,7 +10,6 @@ def load_audio_for_diarization(audio_path: str | Path, sample_rate: int | None) 
 
     waveform = torch.from_numpy(waveform).unsqueeze(0).float()
 
-    # Compatible with pyannote, and allows us to easily split waveform into smaller chunks
     audio_mapping = {
         "waveform": waveform,
         "sample_rate": samplerate,
@@ -18,6 +18,20 @@ def load_audio_for_diarization(audio_path: str | Path, sample_rate: int | None) 
     }
     return audio_mapping
 
+
+def load_audio_from_bytes(audio_bytes: bytes, sample_rate: int = 16000) -> dict:
+    audio_stream = io.BytesIO(audio_bytes)
+    data, sr = librosa.load(audio_stream, sr=sample_rate)
+
+    waveform = torch.from_numpy(data).unsqueeze(0).float()
+
+    audio_mapping = {
+        "waveform": waveform,
+        "sample_rate": sr,
+        "channel": 0,
+        "uri": "streaming_audio.wav",
+    }
+    return audio_mapping
 
 def merge_consecutive_segments(diary_result, waveform: torch.Tensor, sample_rate: int) -> list[dict]:
     # Slicing the audio to individual speaker segments
