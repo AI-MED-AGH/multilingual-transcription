@@ -1,0 +1,51 @@
+.benchmark-container {
+    max-width: 600px;
+    padding: 20px;
+}
+
+.benchmark-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 20px;
+}
+
+.file-uploads-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.upload-section h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #333;
+}
+
+.file-ready-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f0f7ff;
+    border: 1px solid #cce0ff;
+    border-radius: 8px;
+}
+
+.file-ready-card p {
+    margin: 0;
+    color: #2e7d32;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #d32f2f;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.remove-btn:hover {
+    text-decoration: underline;
+}
