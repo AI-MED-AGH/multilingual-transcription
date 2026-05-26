@@ -2,8 +2,7 @@ import re
 from pathlib import Path
 from typing import Self
 
-from openai.types.audio import TranscriptionDiarizedSegment
-from openai.types.audio.transcription_diarized import TranscriptionDiarized, UsageTokens, UsageTokensInputTokenDetails
+from openai.types.audio.transcription_diarized import TranscriptionDiarized
 
 from pydantic import BaseModel
 

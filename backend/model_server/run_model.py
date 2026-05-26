@@ -26,5 +26,5 @@ class BabelModelController(MLController):
 
         except Exception as e:
             import logging
-            logging.getLogger(__name__).exception("Błąd podczas inferencji ASR")
+            logging.getLogger(__name__).exception("Inference ASR Error")
             raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")

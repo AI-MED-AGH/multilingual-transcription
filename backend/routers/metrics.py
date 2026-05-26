@@ -25,4 +25,4 @@ def calculate(payload: MetricsRequest):
         return metrics_results.model_dump()
 
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Błąd walidacji danych: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Validation error: {str(e)}")
