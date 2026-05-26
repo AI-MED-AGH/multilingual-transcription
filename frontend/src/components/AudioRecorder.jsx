@@ -1,45 +1,36 @@
 import { useState, useRef } from 'react';
+import MicRecorder from 'mic-recorder-to-mp3-fixed';
 
 export function AudioRecorder({ onRecordingComplete }) {
   const [isRecording, setIsRecording] = useState(false);
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
+  const recorderRef = useRef(new MicRecorder({ bitRate: 128, numberOfChannels: 1 }));
 
   const startRecording = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-        const audioFile = new File([audioBlob], "browser-recording.webm", { type: 'audio/webm' });
-
-        onRecordingComplete(audioFile);
-
-        // Reset chunks
-        audioChunksRef.current = [];
-      };
-
-      mediaRecorderRef.current.start();
+      // The library handles getUserMedia permissions automatically
+      await recorderRef.current.start();
       setIsRecording(true);
     } catch (error) {
-      console.error("Error accessing microphone:", error);
-      alert("Could not access the microphone. Please check your permissions.");
+      console.error("Error starting MP3 recording:", error);
+      alert("Could not access the microphone.");
     }
   };
 
-  const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
+  const stopRecording = async () => {
+    try {
+      // stop() returns a promise that resolves to [buffer, blob]
+      const [buffer, blob] = await recorderRef.current.stop().getMp3();
 
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+      // Create a standard File object from the MP3 blob
+      const audioFile = new File(buffer, "browser-recording.mp3", {
+        type: blob.type,
+        lastModified: Date.now()
+      });
+
+      onRecordingComplete(audioFile);
       setIsRecording(false);
+    } catch (error) {
+      console.error("Error stopping MP3 recording:", error);
     }
   };
 
