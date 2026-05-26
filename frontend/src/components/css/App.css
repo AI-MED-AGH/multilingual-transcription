@@ -26,6 +26,10 @@ h2 {
     color: #c3efef;
 }
 
+h3 {
+    color: #c3efef;
+}
+
 .app-container {
     display: flex;
     flex-direction: row;
@@ -33,10 +37,21 @@ h2 {
 }
 
 .view-container {
-    width: 100%;
+    width: 700px;
+    margin: 0 auto;
+    padding: 20px;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+}
+
+.file-uploads-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.upload-section {
+    flex: 1;
 }
 
 .drop-zone {
@@ -49,8 +64,7 @@ h2 {
     transition: all 0.2s ease;
     position: relative;
     display: block;
-    flex: 1;
-    width: 290px;
+    flex: 0 1 auto;
 }
 
 .drop-zone.dragging {
@@ -96,3 +110,4 @@ h2 {
     height: 40px;
     outline: none;
 }
+

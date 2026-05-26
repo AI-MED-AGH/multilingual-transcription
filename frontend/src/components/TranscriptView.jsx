@@ -9,15 +9,16 @@ export function TranscriptView() {
 
   // 1. Generate a playable URL whenever a new audio file is set
   useEffect(() => {
-    if (audioFile) {
-      const url = URL.createObjectURL(audioFile);
-      setAudioUrl(url);
-
-      // Cleanup: Revoke the URL when the file changes or component unmounts to prevent memory leaks
-      return () => URL.revokeObjectURL(url);
-    } else {
+    if (!audioFile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setAudioUrl(null);
     }
+
+    const url = URL.createObjectURL(audioFile);
+    setAudioUrl(url);
+
+    // Cleanup: Revoke the URL when the file changes or component unmounts to prevent memory leaks
+    return () => URL.revokeObjectURL(url);
   }, [audioFile]);
 
   const handleSubmit = (e) => {
@@ -59,7 +60,9 @@ export function TranscriptView() {
 
             {/* Leave the uploader visible so they can drag a new file to override it */}
             <div className="override-divider">— OR DRAG A NEW FILE TO OVERRIDE —</div>
-            <FileUploader onFileSelect={setAudioFile} />
+            <div className="file-uploads-container">
+              <FileUploader onFileSelect={setAudioFile} />
+            </div>
           </div>
 
         ) : (

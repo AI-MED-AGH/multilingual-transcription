@@ -56,7 +56,7 @@ export function BenchmarkView() {
             ) : (
               <FileUploader
                 onFileSelect={setAudioFile}
-                accept=".mp3,audio/mpeg,.wav,audio/wav"
+                accept="audio/*"
                 label="Drop an MP3 or WAV file here, or click to browse"
               />
             )}

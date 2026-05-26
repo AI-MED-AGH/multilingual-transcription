@@ -1,25 +1,8 @@
-.benchmark-container {
-    max-width: 600px;
-    padding: 20px;
-}
-
 .benchmark-form {
     display: flex;
     flex-direction: column;
     gap: 32px;
     margin-top: 20px;
-}
-
-.file-uploads-container {
-    display: flex;
-    flex-direction: row;
-}
-
-.upload-section h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 16px;
-    color: #333;
 }
 
 .file-ready-card {

@@ -4,7 +4,7 @@ import { useState } from 'react';
 export function FileUploader({
                                onFileSelect,
                                accept = "audio/*",
-                               label = "Drop a recording file here, or click to browse"
+                               label = "Drop a recording file here, or click to browse",
                              }) {
   const [isDragging, setIsDragging] = useState(false);
 
