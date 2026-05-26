@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 button,
@@ -17,6 +18,9 @@ body {
     color: #d3eaea;
 }
 
+#root {
+    height: 100vh;
+}
 
 h2 {
     color: #c3efef;
@@ -25,6 +29,7 @@ h2 {
 .app-container {
     display: flex;
     flex-direction: row;
+    height: 100%;
 }
 
 .view-container {
