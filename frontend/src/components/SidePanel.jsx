@@ -1,4 +1,5 @@
 import "./css/SidePanel.css"
+import { View } from "../constants.jsx";
 
 export function SidePanel({activeView, setActiveView}) {
 
@@ -7,16 +8,16 @@ export function SidePanel({activeView, setActiveView}) {
     <div className="actions-list">
       <button
         type="button"
-        className={ activeView === "Transcript" ? "active" : "" }
-        onClick={ () => setActiveView("Transcript") }
+        className={ activeView === View.TRANSCRIPT ? "active" : "" }
+        onClick={ () => setActiveView(View.TRANSCRIPT) }
       >
         Transcript
       </button>
 
       <button
         type="button"
-        className={ activeView === "Benchmark" ? "active" : "" }
-        onClick={ () => setActiveView("Benchmark") }
+        className={ activeView === View.BENCHMARK ? "active" : "" }
+        onClick={ () => setActiveView(View.BENCHMARK) }
       >
         Benchmark
       </button>

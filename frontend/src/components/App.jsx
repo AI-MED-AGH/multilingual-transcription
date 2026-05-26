@@ -3,14 +3,15 @@ import { useState } from "react";
 import { SidePanel } from "./SidePanel.jsx";
 import { TranscriptView } from "./TranscriptView.jsx";
 import { BenchmarkView } from "./BenchmarkView.jsx";
+import { View } from "../constants.jsx";
 
 
 function App() {
-  const [activeView, setActiveView] = useState('Transcript');
+  const [activeView, setActiveView] = useState(View.TRANSCRIPT);
 
   const view = {
-    Transcript: <TranscriptView />,
-    Benchmark: <BenchmarkView />,
+    [View.TRANSCRIPT]: <TranscriptView />,
+    [View.BENCHMARK]: <BenchmarkView />,
   }[activeView];
 
   return (

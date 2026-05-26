@@ -1,14 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FileUploader } from './FileUploader.jsx';
 import { AudioRecorder } from './AudioRecorder.jsx';
 import './css/TranscriptView.css';
 import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
-
-const ProcessingState = Object.freeze({
-  FILE_DROP: 1,
-  LOADING: 2,
-  DONE: 3,
-})
+import { ProcessingState } from "../constants.jsx";
 
 export function TranscriptView() {
   const [audioFile, setAudioFile] = useState(null);
