@@ -2,10 +2,19 @@ import { useState, useEffect } from 'react';
 import { FileUploader } from './FileUploader.jsx';
 import { AudioRecorder } from './AudioRecorder.jsx';
 import './css/TranscriptView.css';
+import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
+
+const ProcessingState = Object.freeze({
+  FILE_DROP: 1,
+  LOADING: 2,
+  DONE: 3,
+})
 
 export function TranscriptView() {
   const [audioFile, setAudioFile] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
+  const [processingState, setProcessingState] = useState(ProcessingState.FILE_DROP);
+  const [transcript, setTranscript] = useState("");
 
   // 1. Generate a playable URL whenever a new audio file is set
   useEffect(() => {
@@ -25,8 +34,20 @@ export function TranscriptView() {
     e.preventDefault();
     if (!audioFile) return;
 
-    console.log("Submitting file:", audioFile);
-    alert(`Submitted ${audioFile.name}!`);
+    if (processingState === ProcessingState.LOADING) {
+      // Already processing something
+      return
+    }
+
+    // TODO: make an actual HTTP request
+
+    setProcessingState(ProcessingState.LOADING)
+
+    window.setTimeout(() => {
+      // Fake processing done
+      setTranscript("[0.4 - 0.5] Foo: Bar\n[0.4 - 0.5] Foo: Bar")
+      setProcessingState(ProcessingState.DONE)
+    }, 1000)
   };
 
   // 2. Function to reject/clear the current recording
@@ -46,7 +67,7 @@ export function TranscriptView() {
   };
 
   return (
-    <div className="transcript-container">
+    <div>
       <h1>Transcription</h1>
 
       <form onSubmit={handleSubmit} className="transcript-form">
@@ -97,6 +118,13 @@ export function TranscriptView() {
           Transcript
         </button>
       </form>
+
+      {processingState === ProcessingState.DONE && (
+        <div className="transcript-container">
+          <h2>Model output:</h2>
+          <TranscriptDisplay transcript={transcript} />
+        </div>
+      )}
     </div>
   );
 }

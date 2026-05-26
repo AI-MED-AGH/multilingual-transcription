@@ -1,0 +1,13 @@
+
+.transcript-display {
+    white-space: pre;       /* Preserves \n line breaks, disables auto-wrapping */
+    overflow-x: auto;       /* Enables horizontal scrolling if text overflows */
+    overflow-y: visible;    /* Forces full length vertically without a scrollbar */
+    height: auto;           /* Allows container to grow naturally with content */
+
+    padding: 10px;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    border-radius: 6px;
+    border: 1px solid #333;
+}
