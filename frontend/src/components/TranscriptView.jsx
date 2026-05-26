@@ -89,6 +89,13 @@ export function TranscriptView() {
 
         )}
 
+        <button
+          type="submit"
+          className="submit-btn"
+          disabled={!audioFile}
+        >
+          Transcript
+        </button>
       </form>
     </div>
   );
