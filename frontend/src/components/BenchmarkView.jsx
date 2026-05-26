@@ -8,7 +8,7 @@ export function BenchmarkView() {
   const [audioFile, setAudioFile] = useState(null);
   const [truthFile, setTruthFile] = useState(null);
 
-  const [processingState, setProcessingState] = useState(ProcessingState.DONE);
+  const [processingState, setProcessingState] = useState(ProcessingState.FILE_DROP);
   const [transcript, setTranscript] = useState("");
   const [groundTruth, setGroundTruth] = useState("");
 
