@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button,
+body {
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+body {
+    background-color: #203434;
+    min-height: 100vh;
+    color: #d3eaea;
+}
+
+#root {
+    height: 100vh;
+}
+
+h2 {
+    color: #c3efef;
+    margin: 10px 0;
+}
+
+h3 {
+    color: #c3efef;
+    margin: 5px 0;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.view-container {
+    width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file-uploads-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.upload-section {
+    flex: 1;
+}
+
+.drop-zone {
+    border: 2px dashed #888;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: block;
+    flex: 0 1 auto;
+}
+
+.drop-zone.dragging {
+    border-color: #0066ff;
+    background-color: #e6f0ff;
+}
+
+.drop-zone input[type="file"] {
+    display: none;
+}
+
+.drop-zone p {
+    margin: 0;
+    color: #555;
+    font-weight: 500;
+}
+
+.loading-button-placeholder,
+.submit-btn {
+    padding: 14px;
+    background-color: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.loading-button-placeholder {
+    color: white;
+    cursor: wait;
+    text-align: center;
+
+    background: linear-gradient(
+        90deg,
+        #3789ff 0%,
+        #b4c3de 50%,
+        #3789ff 100%
+    );
+
+    background-size: 200% 100%;
+
+    animation: loading-shimmer 2s linear infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.file-status {
+    text-align: center;
+    font-size: 14px;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.audio-player {
+    width: 100%;
+    height: 40px;
+    outline: none;
+}
+
+.transcript-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 5px;
+}
