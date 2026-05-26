@@ -139,3 +139,9 @@ h3 {
     height: 40px;
     outline: none;
 }
+
+.transcript-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 5px;
+}

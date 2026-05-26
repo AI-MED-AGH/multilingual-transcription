@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileUploader } from './FileUploader.jsx';
 import './css/BenchmarkView.css';
+import { ProcessingState } from "../constants.jsx";
+import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
 
 export function BenchmarkView() {
   const [audioFile, setAudioFile] = useState(null);
   const [truthFile, setTruthFile] = useState(null);
+
+  const [processingState, setProcessingState] = useState(ProcessingState.DONE);
+  const [transcript, setTranscript] = useState("");
+  const [groundTruth, setGroundTruth] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,6 +19,8 @@ export function BenchmarkView() {
       alert("Both files are required.");
       return;
     }
+
+    setProcessingState(ProcessingState.LOADING)
 
     console.log("Submitting Benchmark Data:");
     console.log("Audio:", audioFile.name);
@@ -34,61 +42,106 @@ export function BenchmarkView() {
     //   console.error("Error submitting benchmark:", error);
     // }
 
-    alert("Benchmark files submitted successfully!");
+    setTimeout(() => {
+      setTranscript("Fake\nmodel\noutput")
+      setProcessingState(ProcessingState.DONE);
+    }, 2000)
   };
 
-  return (
-    <div className="benchmark-container">
-      <h1>Benchmark Model</h1>
-      <p style={{color: '#666'}}>Upload an audio file and its matching text transcript to evaluate accuracy.</p>
+  useEffect(() => {
+    if (!truthFile) {
+      return
+    }
 
-      <form onSubmit={handleSubmit} className="benchmark-form">
+    if (truthFile.type !== 'text/plain') {
+      alert("Ground truth file must be a .txt type!")
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTruthFile(null);
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const textContent = e.target.result;
+      console.log("File content:", textContent);
+      setGroundTruth(textContent);
+    };
+
+    reader.onerror = (e) => {
+      console.error("Error reading truth file:", e.target.error);
+    };
+
+    reader.readAsText(truthFile);
+  }, [truthFile]);
+
+  return (
+    <div>
+      <h1>Benchmark Model</h1>
+      <p style={ {color: '#666'} }>Upload an audio file and its matching text transcript to evaluate accuracy.</p>
+
+      <form onSubmit={ handleSubmit } className="benchmark-form">
         <div className="file-uploads-container">
           <div className="upload-section">
             <h3>1. Audio Recording (.mp3, .wav)</h3>
-            {audioFile ? (
+            { audioFile ? (
               <div className="file-ready-card">
-                <p>✅ <strong>{audioFile.name}</strong></p>
-                <button type="button" className="remove-btn" onClick={() => setAudioFile(null)}>
+                <p>✅ <strong>{ audioFile.name }</strong></p>
+                <button type="button" className="remove-btn" onClick={ () => setAudioFile(null) }>
                   Remove
                 </button>
               </div>
             ) : (
               <FileUploader
-                onFileSelect={setAudioFile}
+                onFileSelect={ setAudioFile }
                 accept="audio/*"
                 label="Drop an MP3 or WAV file here, or click to browse"
               />
-            )}
+            ) }
           </div>
 
           <div className="upload-section">
             <h3>2. Ground Truth Transcript (.txt)</h3>
-            {truthFile ? (
+            { truthFile ? (
               <div className="file-ready-card">
-                <p>✅ <strong>{truthFile.name}</strong></p>
-                <button type="button" className="remove-btn" onClick={() => setTruthFile(null)}>
+                <p>✅ <strong>{ truthFile.name }</strong></p>
+                <button type="button" className="remove-btn" onClick={ () => setTruthFile(null) }>
                   Remove
                 </button>
               </div>
             ) : (
               <FileUploader
-                onFileSelect={setTruthFile}
+                onFileSelect={ setTruthFile }
                 accept=".txt,text/plain"
                 label="Drop the Ground Truth .txt file here, or click to browse"
               />
-            )}
+            ) }
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="submit-btn"
-          disabled={!audioFile || !truthFile}
-        >
-          Run Benchmark
-        </button>
+        {processingState === ProcessingState.LOADING
+          ? (
+            <div className="loading-button-placeholder">
+              Please wait...
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={!audioFile}
+            >
+              Run benchmark
+            </button>
+          )
+        }
       </form>
+
+      {processingState === ProcessingState.DONE && (
+        <div className="transcript-container">
+            <TranscriptDisplay header="Model output:" transcript={transcript} />
+            <TranscriptDisplay header="Ground truth:" transcript={groundTruth} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import "./css/TranscriptDisplay.css"
 
 
-export function TranscriptDisplay({transcript}) {
+export function TranscriptDisplay({header, transcript}) {
   return (
-    <pre className="transcript-display">
-      {transcript}
-    </pre>
+    <div className="transcript-display">
+      <h2>{ header }</h2>
+      <pre>
+        {transcript}
+      </pre>
+    </div>
   )
 }

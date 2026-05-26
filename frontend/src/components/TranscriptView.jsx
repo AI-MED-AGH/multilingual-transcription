@@ -65,30 +65,34 @@ export function TranscriptView() {
     <div>
       <h1>Transcription</h1>
 
-      <form onSubmit={handleSubmit} className="transcript-form">
+      <form onSubmit={ handleSubmit } className="transcript-form">
 
-        {/* If we HAVE an audio file, show the preview player and actions */}
-        {audioFile ? (
+        {/* If we HAVE an audio file, show the preview player and actions */ }
+        { audioFile ? (
           <div className="preview-section">
-            <p className="file-status">Ready: {audioFile.name}</p>
+            <p className="file-status">Ready: { audioFile.name }</p>
 
-            {/* Native browser audio player */}
-            <audio controls src={audioUrl} className="audio-player" />
+            {/* Native browser audio player */ }
+            <audio controls src={ audioUrl } className="audio-player"/>
 
             <div className="action-buttons">
-              <button type="button" onClick={handleClear} className="discard-btn">
+              <button type="button" onClick={ handleClear } className="discard-btn">
                 Delete recording
               </button>
 
-              <button type="button" onClick={downloadAudio} className="download-btn">
+              <button type="button" onClick={ downloadAudio } className="download-btn">
                 Download recording
               </button>
             </div>
 
-            {/* Leave the uploader visible so they can drag a new file to override it */}
+            {/* Leave the uploader visible so they can drag a new file to override it */ }
             <div className="override-divider">— OR DRAG A NEW FILE TO OVERRIDE —</div>
             <div className="file-uploads-container">
-              <FileUploader onFileSelect={setAudioFile} />
+              <FileUploader
+                onFileSelect={ setAudioFile }
+                accept="audio/*"
+                label="Drop an MP3 or WAV file here, or click to browse"
+              />
             </div>
           </div>
 
@@ -96,16 +100,21 @@ export function TranscriptView() {
 
           /* If we DO NOT have an audio file, show the initial input options */
           <>
-            <AudioRecorder onRecordingComplete={setAudioFile} />
-            <div style={{ textAlign: "center", color: "#666" }}>— OR —</div>
+            <AudioRecorder onRecordingComplete={ setAudioFile }/>
+            <div style={ {textAlign: "center", color: "#666"} }>— OR —</div>
             <div className="file-uploads-container">
-              <FileUploader onFileSelect={setAudioFile} />
+              <FileUploader
+                onFileSelect={ setAudioFile }
+                accept="audio/*"
+                label="Drop an MP3 or WAV file here, or click to browse"
+              />
             </div>
           </>
 
-        )}
+        ) }
 
-        {processingState === ProcessingState.LOADING ? (
+        { processingState === ProcessingState.LOADING
+          ? (
             <div className="loading-button-placeholder">
               Please wait...
             </div>
@@ -113,7 +122,7 @@ export function TranscriptView() {
             <button
               type="submit"
               className="submit-btn"
-              disabled={!audioFile}
+              disabled={ !audioFile }
             >
               Transcript
             </button>
@@ -122,12 +131,11 @@ export function TranscriptView() {
 
       </form>
 
-      {processingState === ProcessingState.DONE && (
+      { processingState === ProcessingState.DONE && (
         <div className="transcript-container">
-          <h2>Model output:</h2>
-          <TranscriptDisplay transcript={transcript} />
+          <TranscriptDisplay header="Model output:" transcript={ transcript }/>
         </div>
-      )}
+      ) }
     </div>
   );
 }
