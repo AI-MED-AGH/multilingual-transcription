@@ -47,7 +47,7 @@ export function TranscriptView() {
       // Fake processing done
       setTranscript("[0.4 - 0.5] Foo: Bar\n[0.4 - 0.5] Foo: Bar")
       setProcessingState(ProcessingState.DONE)
-    }, 1000)
+    }, 2000)
   };
 
   // 2. Function to reject/clear the current recording
@@ -110,13 +110,21 @@ export function TranscriptView() {
 
         )}
 
-        <button
-          type="submit"
-          className="submit-btn"
-          disabled={!audioFile}
-        >
-          Transcript
-        </button>
+        {processingState === ProcessingState.LOADING ? (
+            <div className="loading-button-placeholder">
+              Please wait...
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={!audioFile}
+            >
+              Transcript
+            </button>
+          )
+        }
+
       </form>
 
       {processingState === ProcessingState.DONE && (

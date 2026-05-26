@@ -84,6 +84,7 @@ h3 {
     font-weight: 500;
 }
 
+.loading-button-placeholder,
 .submit-btn {
     padding: 14px;
     background-color: #0066ff;
@@ -100,6 +101,32 @@ h3 {
     cursor: not-allowed;
 }
 
+.loading-button-placeholder {
+    color: white;
+    cursor: wait;
+    text-align: center;
+
+    background: linear-gradient(
+        90deg,
+        #3789ff 0%,
+        #b4c3de 50%,
+        #3789ff 100%
+    );
+
+    background-size: 200% 100%;
+
+    animation: loading-shimmer 2s linear infinite;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
 .file-status {
     text-align: center;
     font-size: 14px;
@@ -112,4 +139,3 @@ h3 {
     height: 40px;
     outline: none;
 }
-
