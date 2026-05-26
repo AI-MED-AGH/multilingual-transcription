@@ -31,18 +31,20 @@ export function FileUploader({
   };
 
   return (
-    <label
-      className={ `drop-zone ${ isDragging ? "dragging" : "" }` }
-      onDragOver={ handleDragOver }
-      onDragLeave={ handleDragLeave }
-      onDrop={ handleDrop }
-    >
-      <p>{ label }</p>
-      <input
-        type="file"
-        accept={ accept }
-        onChange={ handleChange }
-      />
-    </label>
+    <div className="upload-section">
+      <label
+        className={ `drop-zone ${ isDragging ? "dragging" : "" }` }
+        onDragOver={ handleDragOver }
+        onDragLeave={ handleDragLeave }
+        onDrop={ handleDrop }
+      >
+        <p>{ label }</p>
+        <input
+          type="file"
+          accept={ accept }
+          onChange={ handleChange }
+        />
+      </label>
+    </div>
   );
 }

@@ -17,14 +17,13 @@ export function AudioRecorder({ onRecordingComplete }) {
       };
 
       mediaRecorderRef.current.onstop = () => {
-        // Creates a webm/mp4 audio blob (browser default)
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-
-        // We create a "File" object from the Blob so it acts just like an uploaded file
         const audioFile = new File([audioBlob], "browser-recording.webm", { type: 'audio/webm' });
 
         onRecordingComplete(audioFile);
-        audioChunksRef.current = []; // Reset chunks
+
+        // Reset chunks
+        audioChunksRef.current = [];
       };
 
       mediaRecorderRef.current.start();
@@ -38,7 +37,7 @@ export function AudioRecorder({ onRecordingComplete }) {
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
-      // Stop all audio tracks to turn off the microphone light in the browser
+
       mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
       setIsRecording(false);
     }

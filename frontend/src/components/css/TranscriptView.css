@@ -70,6 +70,22 @@
     background-color: #ffcdd2;
 }
 
+.download-btn {
+    padding: 14px;
+    background-color: #ebecff;
+    color: #2f50d3;
+    border: 1px solid #cdd8ff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+    background-color: #cdd4ff;
+}
+
 .override-divider {
     text-align: center;
     color: #888;

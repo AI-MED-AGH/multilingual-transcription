@@ -34,6 +34,17 @@ export function TranscriptView() {
     setAudioFile(null);
   };
 
+  const downloadAudio = () => {
+    if (!audioUrl || !audioFile) return;
+
+    const link = document.createElement('a');
+    link.href = audioUrl;
+    link.download = audioFile.name || 'recording.mp3';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="transcript-container">
       <h1>Transcription</h1>
@@ -43,18 +54,18 @@ export function TranscriptView() {
         {/* If we HAVE an audio file, show the preview player and actions */}
         {audioFile ? (
           <div className="preview-section">
-            <p className="file-status">✅ Ready: <strong>{audioFile.name}</strong></p>
+            <p className="file-status">Ready: {audioFile.name}</p>
 
             {/* Native browser audio player */}
             <audio controls src={audioUrl} className="audio-player" />
 
             <div className="action-buttons">
               <button type="button" onClick={handleClear} className="discard-btn">
-                🗑️ Reject & Re-record
+                Delete recording
               </button>
 
-              <button type="submit" className="submit-btn">
-                Submit Transcription
+              <button type="button" onClick={downloadAudio} className="download-btn">
+                Download recording
               </button>
             </div>
 
@@ -71,7 +82,9 @@ export function TranscriptView() {
           <>
             <AudioRecorder onRecordingComplete={setAudioFile} />
             <div style={{ textAlign: "center", color: "#666" }}>— OR —</div>
-            <FileUploader onFileSelect={setAudioFile} />
+            <div className="file-uploads-container">
+              <FileUploader onFileSelect={setAudioFile} />
+            </div>
           </>
 
         )}
