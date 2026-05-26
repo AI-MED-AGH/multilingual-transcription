@@ -9,16 +9,16 @@ export function TranscriptView() {
 
   // 1. Generate a playable URL whenever a new audio file is set
   useEffect(() => {
-    if (!audioFile) {
+    if (audioFile) {
+      const url = URL.createObjectURL(audioFile);
       // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAudioUrl(url);
+
+      // Cleanup: Revoke the URL when the file changes or component unmounts to prevent memory leaks
+      return () => URL.revokeObjectURL(url);
+    } else {
       setAudioUrl(null);
     }
-
-    const url = URL.createObjectURL(audioFile);
-    setAudioUrl(url);
-
-    // Cleanup: Revoke the URL when the file changes or component unmounts to prevent memory leaks
-    return () => URL.revokeObjectURL(url);
   }, [audioFile]);
 
   const handleSubmit = (e) => {
