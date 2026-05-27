@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from backend.core.config import config
 from backend.core.core_logging import setup_logging
-from backend.routers import metrics
+from backend.routers import metrics, job
 from backend.model_server.run_model import BabelModelController
 import warnings
 
@@ -18,6 +18,7 @@ app = FastAPI(title=config.APP_NAME,
               debug=config.DEBUG)
 
 app.include_router(metrics.router, prefix="/metrics")
+app.include_router(job.router)
 app.mount("/transcription", transcription_controller.app)
 
 if __name__ == "__main__":
