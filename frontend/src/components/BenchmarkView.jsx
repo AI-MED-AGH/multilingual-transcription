@@ -3,6 +3,7 @@ import { FileUploader } from './FileUploader.jsx';
 import './css/BenchmarkView.css';
 import { ProcessingState } from "../constants.jsx";
 import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
+import { MetricsDisplay } from "./MetricsDisplay.jsx";
 import { calculateMetrics, transcribeAudio } from "../api.js";
 
 export function BenchmarkView() {
@@ -129,20 +130,13 @@ export function BenchmarkView() {
       </form>
 
       {processingState === ProcessingState.DONE && (
-        <div className="transcript-container">
-          {metrics && (
-            <div className="transcript-display">
-              <h2>Metrics</h2>
-              <pre>
-                {`WER:  ${metrics.wer.toFixed(4)}
-MER:  ${metrics.mer.toFixed(4)}
-WDER: ${metrics.wder.toFixed(4)}`}
-              </pre>
-            </div>
-          )}
-          <TranscriptDisplay header="Model output:" transcript={transcript} />
-          <TranscriptDisplay header="Ground truth:" transcript={groundTruth} />
-        </div>
+        <section className="results-section">
+          <MetricsDisplay metrics={metrics} />
+          <div className="transcript-container">
+            <TranscriptDisplay header="Model output:" transcript={transcript} />
+            <TranscriptDisplay header="Ground truth:" transcript={groundTruth} />
+          </div>
+        </section>
       )}
     </div>
   );

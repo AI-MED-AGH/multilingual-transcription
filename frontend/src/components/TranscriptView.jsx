@@ -135,9 +135,11 @@ export function TranscriptView() {
       </form>
 
       { processingState === ProcessingState.DONE && (
-        <div className="transcript-container">
-          <TranscriptDisplay header="Model output:" transcript={ transcript }/>
-        </div>
+        <section className="results-section">
+          <div className="transcript-container">
+            <TranscriptDisplay header="Model output:" transcript={ transcript }/>
+          </div>
+        </section>
       ) }
     </div>
   );

@@ -140,8 +140,14 @@ h3 {
     outline: none;
 }
 
-.transcript-container {
+.results-section {
     margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.transcript-container {
     display: flex;
     gap: 5px;
 }
