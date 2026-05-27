@@ -25,6 +25,7 @@ dependencies = [
     "pydantic-settings>=2.14.1",
     "python-multipart>=0.0.29",
     "transformers>=5.9.0",
+    "uvicorn>=0.48.0",
 ]
 
 [tool.setuptools.packages.find]

@@ -2035,6 +2035,7 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "python-multipart" },
     { name = "transformers" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -2055,6 +2056,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.14.1" },
     { name = "python-multipart", specifier = ">=0.0.29" },
     { name = "transformers", specifier = ">=5.9.0" },
+    { name = "uvicorn", specifier = ">=0.48.0" },
 ]
 
 [[package]]
