@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 
 from backend.core.config import config
@@ -16,6 +17,14 @@ transcription_controller = BabelModelController()
 transcription_controller.initialize()
 app = FastAPI(title=config.APP_NAME,
               debug=config.DEBUG)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(metrics.router, prefix="/metrics")
 app.include_router(job.router)

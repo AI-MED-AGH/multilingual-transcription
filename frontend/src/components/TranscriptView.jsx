@@ -4,6 +4,7 @@ import { AudioRecorder } from './AudioRecorder.jsx';
 import './css/TranscriptView.css';
 import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
 import { ProcessingState } from "../constants.jsx";
+import { transcribeAudio } from "../api.js";
 
 export function TranscriptView() {
   const [audioFile, setAudioFile] = useState(null);
@@ -25,24 +26,26 @@ export function TranscriptView() {
     }
   }, [audioFile]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!audioFile) return;
 
     if (processingState === ProcessingState.LOADING) {
-      // Already processing something
-      return
+      return;
     }
 
-    // TODO: make an actual HTTP request
+    setProcessingState(ProcessingState.LOADING);
+    setTranscript("");
 
-    setProcessingState(ProcessingState.LOADING)
-
-    window.setTimeout(() => {
-      // Fake processing done
-      setTranscript("[0.4 - 0.5] Foo: Bar\n[0.4 - 0.5] Foo: Bar")
-      setProcessingState(ProcessingState.DONE)
-    }, 2000)
+    try {
+      const result = await transcribeAudio(audioFile);
+      setTranscript(result);
+      setProcessingState(ProcessingState.DONE);
+    } catch (error) {
+      console.error("Transcription error:", error);
+      alert(error.message || "Transcription failed.");
+      setProcessingState(ProcessingState.FILE_DROP);
+    }
   };
 
   // 2. Function to reject/clear the current recording

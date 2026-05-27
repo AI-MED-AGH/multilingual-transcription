@@ -3,6 +3,7 @@ import { FileUploader } from './FileUploader.jsx';
 import './css/BenchmarkView.css';
 import { ProcessingState } from "../constants.jsx";
 import { TranscriptDisplay } from "./TranscriptDisplay.jsx";
+import { calculateMetrics, transcribeAudio } from "../api.js";
 
 export function BenchmarkView() {
   const [audioFile, setAudioFile] = useState(null);
@@ -11,6 +12,7 @@ export function BenchmarkView() {
   const [processingState, setProcessingState] = useState(ProcessingState.FILE_DROP);
   const [transcript, setTranscript] = useState("");
   const [groundTruth, setGroundTruth] = useState("");
+  const [metrics, setMetrics] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,32 +22,22 @@ export function BenchmarkView() {
       return;
     }
 
-    setProcessingState(ProcessingState.LOADING)
+    setProcessingState(ProcessingState.LOADING);
+    setTranscript("");
+    setMetrics(null);
 
-    console.log("Submitting Benchmark Data:");
-    console.log("Audio:", audioFile.name);
-    console.log("Truth:", truthFile.name);
+    try {
+      const modelOutput = await transcribeAudio(audioFile);
+      const metricsResult = await calculateMetrics(modelOutput, groundTruth);
 
-    // --- Placeholder Backend Communication ---
-    // const formData = new FormData();
-    // formData.append("audio_file", audioFile);
-    // formData.append("ground_truth", truthFile);
-    //
-    // try {
-    //   const response = await fetch('http://your-backend-api/benchmark', {
-    //     method: 'POST',
-    //     body: formData,
-    //   });
-    //   const result = await response.json();
-    //   console.log("Success:", result);
-    // } catch (error) {
-    //   console.error("Error submitting benchmark:", error);
-    // }
-
-    setTimeout(() => {
-      setTranscript("Fake\nmodel\noutput")
+      setTranscript(modelOutput);
+      setMetrics(metricsResult);
       setProcessingState(ProcessingState.DONE);
-    }, 2000)
+    } catch (error) {
+      console.error("Benchmark error:", error);
+      alert(error.message || "Benchmark failed.");
+      setProcessingState(ProcessingState.FILE_DROP);
+    }
   };
 
   useEffect(() => {
@@ -128,7 +120,7 @@ export function BenchmarkView() {
             <button
               type="submit"
               className="submit-btn"
-              disabled={!audioFile}
+              disabled={!audioFile || !truthFile}
             >
               Run benchmark
             </button>
@@ -138,8 +130,18 @@ export function BenchmarkView() {
 
       {processingState === ProcessingState.DONE && (
         <div className="transcript-container">
-            <TranscriptDisplay header="Model output:" transcript={transcript} />
-            <TranscriptDisplay header="Ground truth:" transcript={groundTruth} />
+          {metrics && (
+            <div className="transcript-display">
+              <h2>Metrics</h2>
+              <pre>
+                {`WER:  ${metrics.wer.toFixed(4)}
+MER:  ${metrics.mer.toFixed(4)}
+WDER: ${metrics.wder.toFixed(4)}`}
+              </pre>
+            </div>
+          )}
+          <TranscriptDisplay header="Model output:" transcript={transcript} />
+          <TranscriptDisplay header="Ground truth:" transcript={groundTruth} />
         </div>
       )}
     </div>
