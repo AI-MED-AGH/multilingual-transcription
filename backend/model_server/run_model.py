@@ -46,7 +46,7 @@ class BabelModelController(MLController):
         self,
         file: UploadFile = File(...),
         speakers: str = Form(None),
-        background_tasks: BackgroundTasks = BackgroundTasks() # 2. Inject BackgroundTasks
+        background_tasks: BackgroundTasks = BackgroundTasks()
     ):
         job_data = JobData()
         this_job_id = self.next_job_id
