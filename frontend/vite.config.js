@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig(({ mode }) => {
   const repoRoot = path.resolve(__dirname, '..')
   const env = loadEnv(mode, repoRoot, '')
-  const apiTarget = `http://localhost:${env.API_PORT}`
+  const apiTarget = env.API_URL
 
   return {
     plugins: [react()],
