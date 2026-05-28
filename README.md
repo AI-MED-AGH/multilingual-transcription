@@ -15,7 +15,16 @@ HUGGINGFACE_TOKEN=<your-huggingface-key>
 API_PORT=8000
 ```
 
-A tiny amount of tokens is ued from openai platform, so total costs should not exceed a few cents.
+A tiny amount of tokens is used from openai platform, so total costs should not exceed a few cents.
+
+### Model access requests on HuggingFace
+
+One must accept conditions of the following models, in order to download them using API:
+
+1. https://huggingface.co/pyannote/speaker-diarization-3.1
+2. https://huggingface.co/CohereLabs/cohere-transcribe-03-2026
+
+### Sample data
 
 Download example data from [GitHub release](https://github.com/Ajver/multilingual-transcription/releases/download/data_v1/data.zip), and upack it as `data` folder in the root of this repo.
 
