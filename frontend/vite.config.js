@@ -9,6 +9,8 @@ export default defineConfig(({ mode }) => {
   const apiTarget = env.API_URL
 
   return {
+    base: '/multilingual-transcription/',
+
     plugins: [react()],
     envDir: repoRoot,
     server: {
