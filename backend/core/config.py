@@ -8,5 +8,6 @@ class Config(BaseSettings):
     APP_NAME: str = "ASR Babel"
     DEBUG: bool = False
     API_PORT: int = None
+    USE_NNPACK = 0
 
 config= Config()
