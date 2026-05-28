@@ -40,6 +40,7 @@ h3 {
 
 .view-container {
     width: 700px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -150,4 +151,10 @@ h3 {
 .transcript-container {
     display: flex;
     gap: 5px;
+}
+
+@media (max-width: 800px) {
+    .app-container {
+        flex-direction: column;
+    }
 }

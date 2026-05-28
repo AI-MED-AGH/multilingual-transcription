@@ -21,3 +21,21 @@
 .actions-list button.active {
     background-color: #b1e19b;
 }
+
+
+@media (max-width: 800px) {
+    .side-panel {
+        width: 100%;
+        border: none;
+        height: auto;
+    }
+
+    .actions-list {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .actions-list button {
+        width: 40%;
+    }
+}
