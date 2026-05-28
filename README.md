@@ -13,7 +13,7 @@ Create `.env` file in the root folder of this repository, with following fields:
 OPENAI_API_KEY=<your-openai-key>
 HUGGINGFACE_TOKEN=<your-huggingface-key>
 API_PORT=8000
-API_URL=http://localhost:8000
+VITE_API_URL=http://localhost:8000
 ```
 
 A tiny amount of tokens is ued from openai platform, so total costs should not exceed a few cents.

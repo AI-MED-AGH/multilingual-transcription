@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const repoRoot = path.resolve(__dirname, '..')
-  const env = loadEnv(mode, repoRoot, '')
-  const apiTarget = env.API_URL
+  // const env = loadEnv(mode, repoRoot, '')
+  const env = { ...loadEnv(mode, repoRoot, ''), ...process.env }
+  const apiTarget = env.VITE_API_URL
 
   return {
     base: '/multilingual-transcription/',
